@@ -5,4 +5,7 @@ import javax.swing.*;
 
 public class Ball {
     
+    Ball(){
+        
+    }
 }
