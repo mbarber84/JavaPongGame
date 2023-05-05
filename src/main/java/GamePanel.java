@@ -30,8 +30,13 @@ public class GamePanel {
     public void run(){
         
     }
-    public class AL extends KeyAdapter{
-        
+    public class AL extends KeyAdapter{ //AL = Actual Listener
+        public void keyPressed(KeyEvent e){
+            
+        }
+        public void keyReleased(KeyEvent e){
+            
+        }
     }
     
     
