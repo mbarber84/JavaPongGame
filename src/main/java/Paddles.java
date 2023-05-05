@@ -3,7 +3,10 @@ import  java.awt.event.*;
 import  java.util.*;
 import javax.swing.*;
 
-public class Paddles {
+public class Paddles extends Rectangle{
+    
+    int id;
+    int yVolocity;
 
     Paddles() {
         
