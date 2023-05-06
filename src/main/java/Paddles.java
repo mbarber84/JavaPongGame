@@ -8,8 +8,9 @@ public class Paddles extends Rectangle{
     int id;
     int yVolocity;
 
-    Paddles() {
-        
+    Paddles(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int id) {
+        super(x,y,PADDLE_WIDTH,PADDLE_HEIGHT);
+        this.id = id;
     }
     public void keyPressed(KeyEvent e){
             
@@ -24,6 +25,10 @@ public class Paddles extends Rectangle{
         
     }
     public void draw(Graphics g){
-        
+        if(id == 1)
+            g.setColor(new Color(204,0, 255));
+        else
+           g.setColor(new Color(66,242,7)); 
+        g.fillRect(x, y, width, height);
     }
 }
