@@ -62,10 +62,33 @@ public class GamePanel extends JPanel implements Runnable{
     public void checkCollision(){
         //allows ball to stay within frame and bounce
         if(ball.y <= 0){
-            ball.setYDirection(-ball.xVolocity);
+            ball.setYDirection(-ball.yVolocity);
         }
         if(ball.y >= GAME_HEIGHT - BALL_DIAMETER){
-            ball.setYDirection(-ball.xVolocity);
+            ball.setYDirection(-ball.yVolocity);
+        }
+        
+        //allows paddles and ball to collide
+        if(ball.intersects(paddles1)){
+            ball.xVolocity = Math.abs(ball.xVolocity);
+            ball.xVolocity++; //speed up ball
+            if(ball.yVolocity > 0)
+                ball.yVolocity++;//speed up ball
+            else
+                ball.yVolocity--;
+            ball.setXDirection(ball.xVolocity);
+            ball.setYDirection(ball.yVolocity);
+        }
+        
+        if(ball.intersects(paddles2)){
+            ball.xVolocity = Math.abs(ball.xVolocity);
+            ball.xVolocity++; //speed up ball
+            if(ball.yVolocity > 0)
+                ball.yVolocity++;//speed up ball
+            else
+                ball.yVolocity--;
+            ball.setXDirection(-ball.xVolocity);
+            ball.setYDirection(ball.yVolocity);
         }
         
         //Stops paddles from going over frame window edge
@@ -78,6 +101,22 @@ public class GamePanel extends JPanel implements Runnable{
             paddles2.y = 0;
         if(paddles2.y >= (GAME_HEIGHT - PADDLE_HEIGHT))
             paddles2.y = GAME_HEIGHT - PADDLE_HEIGHT;
+        
+        //Method for points and reset of game paddles and ball
+        if(ball.x <= 0){
+            score.player2++;
+            newPaddles();
+            newBall();
+            System.out.println("Player 2" + score.player2);
+        }
+        
+        if(ball.x >= GAME_WIDTH - BALL_DIAMETER){
+            score.player1++;
+            newPaddles();
+            newBall();
+            System.out.println("Player 1" + score.player1);
+        }
+        
     }
     public void run(){
         //basic game loop
