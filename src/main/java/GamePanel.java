@@ -11,6 +11,7 @@ public class GamePanel extends JPanel implements Runnable{
     static final int BALL_DIAMETER = 20;// A Constant
     static final int PADDLE_WIDTH = 25;// A Constant
     static final int PADDLE_HEIGHT = 100;// A Constant
+    boolean paused = false;
     
     Thread gameThread;//object that will run the game loop.
     Image image;//object used for double buffering
@@ -141,8 +142,10 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = now;
             
             if(delta >= 1){//if delta is equal or greater than 1, time to do a game update.
+                 if (!paused) {
                 move();//update the positions of the paddles and the ball
                 checkCollision();//handle collision detection and response.
+                 }
                 repaint();
                 delta--;//indicating that a tick has been processed
 //                System.out.println("TEST");
@@ -154,6 +157,10 @@ public class GamePanel extends JPanel implements Runnable{
             //This delegates the responsibility of handling the key press event to the corresponding paddle objects.
             paddles1.keyPressed(e);
             paddles2.keyPressed(e);
+            
+            if (e.getKeyCode() == KeyEvent.VK_P) {
+            paused = !paused;
+    }
         }
         public void keyReleased(KeyEvent e){
             paddles1.keyReleased(e);
