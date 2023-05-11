@@ -5,6 +5,8 @@ import javax.swing.*;
 
 public class GamePanel extends JPanel implements Runnable{
     //Class variables
+    private static GamePanel instance; // Singleton instance variable
+    private GameState gameState;
     static final int GAME_WIDTH = 1000;
     static final int GAME_HEIGHT = (int)(GAME_WIDTH * (0.5555));//PingPong table dimentions
     static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT); //the Dimension object is representing the size of the game window.
@@ -23,10 +25,11 @@ public class GamePanel extends JPanel implements Runnable{
     Ball ball;//An instance of the Ball class representing the ball in the game
     Score score;//An instance of the Score class representing the score display.
 
-    GamePanel() { //constructor
+    private GamePanel() { //constructor
         //initialises the paddles, ball, and score objects
         newPaddles();
         newBall();
+        gameState = GameState.PLAYING; // set the initial state to "playing"
         score = new Score(GAME_WIDTH,GAME_HEIGHT);
         this.setFocusable(true);//It sets the focusable to true, enabling keyboard input for the panel.
         this.addKeyListener(new AL());
@@ -34,6 +37,12 @@ public class GamePanel extends JPanel implements Runnable{
         //new thread starts the game loop.
         gameThread = new Thread(this);
         gameThread.start();
+    }
+    public static GamePanel getInstance() {
+        if (instance == null) {
+            instance = new GamePanel();
+        }
+        return instance;
     }
     //method generates a new ball object with a random position within the game window.
     public void newBall(){
@@ -142,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable{
             lastTime = now;
             
             if(delta >= 1){//if delta is equal or greater than 1, time to do a game update.
-                 if (!paused) {
+                 if (gameState == GameState.PLAYING) { // execute game logic only when in "playing" state
                 move();//update the positions of the paddles and the ball
                 checkCollision();//handle collision detection and response.
                  }
@@ -159,12 +168,19 @@ public class GamePanel extends JPanel implements Runnable{
             paddles2.keyPressed(e);
             
             if (e.getKeyCode() == KeyEvent.VK_P) {
-            paused = !paused;
-    }
+            toggleGameState();
+        }
         }
         public void keyReleased(KeyEvent e){
             paddles1.keyReleased(e);
             paddles2.keyReleased(e);
+        }
+    }
+    private void toggleGameState() {
+        if (gameState == GameState.PLAYING) {
+            gameState = GameState.PAUSED;
+        } else if (gameState == GameState.PAUSED) {
+            gameState = GameState.PLAYING;
         }
     }
 }
