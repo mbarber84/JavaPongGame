@@ -1,7 +1,6 @@
 import  java.awt.*;
-import  java.awt.event.*;
 import  java.util.*;
-import javax.swing.*;
+
 
 public class Ball extends Rectangle{//The class extends the Rectangle class, which represents a rectangle. Same as in the Paddles class.
     //instance variables
