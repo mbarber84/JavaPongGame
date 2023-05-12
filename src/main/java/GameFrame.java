@@ -10,7 +10,7 @@ public class GameFrame extends JFrame{
     GamePanel panel; //This variable will hold the game panel where the actual gameplay will be displayed.
 
     GameFrame() { //This constructor is called when an instance of the GameFrame class is created.
-        panel = new GamePanel();//The GamePanel class acts for the panel where the game graphics and logic will be put into effect.
+        panel = GamePanel.getInstance();//The GamePanel class acts for the panel where the game graphics and logic will be put into effect.
         this.add(panel); //This adds the game panel to the content pane of the frame.
         this.setTitle("Java Pong Game");//The title of the frame is set to "Java Pong Game" using the setTitle() method.
         this.setResizable(false);//The frame is set to be non-resizable using the setResizable() method.
